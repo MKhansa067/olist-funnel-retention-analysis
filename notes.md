@@ -21,3 +21,9 @@
 - 1,183 orders shipped but not delivered: 1,107 have status 'shipped' [stale or in flight: TBD from Query D].
 - Median days: purchase->approved 0.01, approved->carrier 1.85, carrier->delivered 7.1, purchase->delivered 10.22 (mean 12.56, max 209.6). Negative durations excluded: 1,359 (approved->carrier), 23 (carrier->delivered).
 - order_reviews: 99,224 rows for 98,673 orders; 768 orders have no review. Rule: latest review_answer_timestamp per order; LEFT JOIN keeps unreviewed orders.
+- Monthly volume: 2017-11 = 7,544 orders (+63% vs 2017-10); 2017-12 = 5,673. Peak likely Black Friday (hypothesis, unverified).
+- Unfinished orders are stale, not in flight: average age at snapshot 311-579 days (shipped 316, invoiced 353, processing 416). They never reached 'delivered' in the data
+  (cannot tell lost vs unrecorded).
+- Retention (20 cohorts, 2017-01..2018-08, 94,697 customers): pooled retention month 1 = 0.48%, month 2 = 0.34%, month 3 = 0.26%, month 6 = 0.23%, month 12 = 0.18%. Flat, very low curve.
+  Offsets >= 13 are sparse (<= 25 customers) -> excluded from heatmap.
+- Month-1 retention dipped for 2017-12..2018-02 cohorts (0.22-0.36%) vs 2017-08..2017-10 (0.68-0.71%); differences are small in absolute numbers (tens of customers) -> observation, not conclusion.
