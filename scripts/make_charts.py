@@ -8,6 +8,8 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "output"
+CHARTS = ROOT / "assets" / "charts"
+CHARTS.mkdir(parents=True, exist_ok=True)
 
 plt.rcParams.update({
     "figure.dpi": 150,
@@ -17,20 +19,26 @@ plt.rcParams.update({
 })
 
 
-def read(name):
+def read(subdir, prefix):
+    """Load the newest CSV in output/<subdir>/ whose name starts with <prefix>_."""
+    matches = sorted((OUT / subdir).glob(f"{prefix}_*.csv"))
+    if not matches:
+        raise FileNotFoundError(f"No file matching {prefix}_*.csv in {OUT / subdir}")
+    path = matches[-1]  # newest timestamp if the query was exported more than once
+    print(f"reading {subdir}/{path.name[:50]}...")
     # thousands="," keeps numbers such as "99,441" readable if the export formatted them
-    return pd.read_csv(OUT / f"{name}.csv", thousands=",")
+    return pd.read_csv(path, thousands=",")
 
 
 def save(fig, name):
     fig.tight_layout()
-    fig.savefig(OUT / f"{name}.png", bbox_inches="tight")
+    fig.savefig(CHARTS / f"{name}.png", bbox_inches="tight")
     plt.close(fig)
-    print(f"saved {name}.png")
+    print(f"saved assets/charts/{name}.png")
 
 
 def chart_funnel():
-    df = read("funnel")
+    df = read("02_funnel", "_A")
     rows = list(zip(df["stage"].str.replace("_", " "), df["orders"], df["pct_of_purchased"]))[::-1]
     fig, ax = plt.subplots(figsize=(8, 3.6))
     bars = ax.barh([r[0] for r in rows], [r[1] for r in rows], color="#4C78A8")
@@ -45,7 +53,7 @@ def chart_funnel():
 
 
 def chart_heatmap():
-    df = read("retention_cohort")
+    df = read("03_retention_cohort", "_A")
     df = df[(df["month_offset"] >= 1) & (df["month_offset"] <= 12)]
     pv = df.pivot(index="cohort_month", columns="month_offset", values="retention_pct").sort_index()
     data = np.ma.masked_invalid(pv.values)
@@ -71,7 +79,7 @@ def chart_heatmap():
 
 
 def chart_pooled():
-    df = read("retention_pooled")
+    df = read("03_retention_cohort", "_B")
     df = df[(df["month_offset"] >= 1) & (df["month_offset"] <= 12)]
     first = df["pooled_retention_pct"].iloc[0]
     later_max = df["pooled_retention_pct"].iloc[1:].max()
@@ -86,7 +94,7 @@ def chart_pooled():
 
 
 def chart_late():
-    df = read("late_buckets").sort_values("delivery_bucket")
+    df = read("05_extra_analysis", "_E2").sort_values("delivery_bucket")
     labels = ["On time\nor early", "Late\n1-3 days", "Late\n4-7 days", "Late\n8+ days"]
     colors = ["#59A14F", "#E15759", "#E15759", "#E15759"]
     fig, axes = plt.subplots(1, 2, figsize=(10, 4))
@@ -110,7 +118,7 @@ def chart_late():
 
 
 def chart_category():
-    df = read("segment_category").sort_values("pct_low_review")
+    df = read("04_segmentation", "_B").sort_values("pct_low_review")
     fig, ax = plt.subplots(figsize=(8, 6))
     bars = ax.barh(df["category"], df["pct_low_review"], color="#F28E2B")
     for bar, v in zip(bars, df["pct_low_review"]):
