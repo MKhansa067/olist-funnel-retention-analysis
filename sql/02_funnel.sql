@@ -86,3 +86,15 @@ SELECT step,
 FROM ranked
 GROUP BY step
 ORDER BY step;
+
+-- D. Are unfinished orders stale (real leakage) or recent (still in flight)?
+SELECT order_status,
+       COUNT(*)                          AS n,
+       MIN(order_purchase_timestamp)     AS earliest_purchase,
+       MAX(order_purchase_timestamp)     AS latest_purchase,
+       ROUND(AVG(julianday((SELECT MAX(order_purchase_timestamp) FROM orders))
+                 - julianday(order_purchase_timestamp)), 0) AS avg_age_days_at_snapshot
+FROM orders
+WHERE order_status IN ('shipped', 'invoiced', 'processing', 'created', 'approved')
+GROUP BY order_status
+ORDER BY n DESC;
