@@ -1,0 +1,15 @@
+"last_stage_reached","order_status","n"
+"1_stopped_before_approval",canceled,141
+"1_stopped_before_approval",delivered,14
+"1_stopped_before_approval",created,5
+"2_approved_not_shipped",unavailable,609
+"2_approved_not_shipped",canceled,409
+"2_approved_not_shipped",invoiced,314
+"2_approved_not_shipped",processing,301
+"2_approved_not_shipped",delivered,2
+"2_approved_not_shipped",approved,2
+"3_shipped_not_delivered",shipped,1107
+"3_shipped_not_delivered",canceled,69
+"3_shipped_not_delivered",delivered,7
+"4_delivered",delivered,96455
+"4_delivered",canceled,6

@@ -1,0 +1,3 @@
+"segment","customers","orders","total_value","pct_of_value","avg_order_value","avg_review"
+one_time,92103,92103,14848769,94.34,161.22,4.11
+repeat_2plus,2887,6103,890201.0,5.66,145.86,4.18

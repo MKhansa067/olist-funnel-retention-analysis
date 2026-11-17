@@ -1,0 +1,5 @@
+"delivery_bucket","orders","reviewed","avg_review","pct_low_review"
+"1_on_time_or_early",89936,89443,4.29,9.27
+"2_late_1_3_days",1870,1852,3.29,32.13
+"3_late_4_7_days",1802,1748,2.1,67.68
+"4_late_8plus_days",2862,2781,1.7,79.29

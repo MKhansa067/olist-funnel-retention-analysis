@@ -1,0 +1,5 @@
+|delivery_status |customers|returned_within_6m|repeat_rate_6m_pct|
+|----------------|---------|------------------|------------------|
+|late            |3,667    |54                |1.47              |
+|on_time_or_early|51,560   |922               |1.79              |
+|all             |55,227   |976               |1.77              |

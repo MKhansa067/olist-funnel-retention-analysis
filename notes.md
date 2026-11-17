@@ -24,6 +24,11 @@
 - Monthly volume: 2017-11 = 7,544 orders (+63% vs 2017-10); 2017-12 = 5,673. Peak likely Black Friday (hypothesis, unverified).
 - Unfinished orders are stale, not in flight: average age at snapshot 311-579 days (shipped 316, invoiced 353, processing 416). They never reached 'delivered' in the data
   (cannot tell lost vs unrecorded).
-- Retention (20 cohorts, 2017-01..2018-08, 94,697 customers): pooled retention month 1 = 0.48%, month 2 = 0.34%, month 3 = 0.26%, month 6 = 0.23%, month 12 = 0.18%. Flat, very low curve.
-  Offsets >= 13 are sparse (<= 25 customers) -> excluded from heatmap.
+- Retention (20 cohorts, 2017-01..2018-08, 94,697 customers): pooled retention month 1 = 0.48%, month 2 = 0.34%, month 3 = 0.26%, month 6 = 0.23%, month 12 = 0.18%. Flat, very low curve. Offsets >= 13 are sparse (<= 25 customers) -> excluded from heatmap.
 - Month-1 retention dipped for 2017-12..2018-02 cohorts (0.22-0.36%) vs 2017-08..2017-10 (0.68-0.71%); differences are small in absolute numbers (tens of customers) -> observation, not conclusion.
+- v_order_base: 98,206 valid orders, 94,990 customers (valid = not canceled/unavailable, purchased before 2018-09-01).
+- Customers: 92,103 one-time vs 2,887 repeat (3.04%); repeat = 5.66% of value; value per repeat customer ~1.9x (~308 vs ~161); avg order value 145.86 vs 161.22; avg review 4.18 vs 4.11.
+- Categories: no category above 9.14% of value; top 15 ~76%. office_furniture has 22.64% low reviews (avg 3.62); bed_bath_table 16.47%, furniture_decor 15.92%, computers_accessories 15.69%.
+- States: SP 37.35% of value; top 10 states 87.29%. RJ (3.90) and BA (3.88) have the lowest avg review.
+- Late delivery (delivered orders, date-level comparison vs estimate): 6.77% late (6,534 of 96,470). Avg review 2.27 late vs 4.29 on time; low reviews 62.42% vs 9.27%. Monotone by lateness: 1-3 days 3.29, 4-7 days 2.10, 8+ days 1.70. Late orders ~ one third of all low reviews (derived estimate).
+- 6-month repeat rate (first orders 2017-01..2018-02, delivered): all 1.77% (976 / 55,227); late 1.47% (54 / 3,667) vs on time 1.79% (922 / 51,560); difference ~0.32 pp, 95% CI roughly -0.1 to +0.7 pp (self-computed) -> no clear evidence of an effect. Observational data; association only.

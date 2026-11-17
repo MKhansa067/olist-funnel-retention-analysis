@@ -5,6 +5,7 @@
 --           one review per order (latest answer); payments summed per order;
 --           category = category of the highest-priced item in the order.
 
+-- 0 . View with one row per order, including customer, state, order value, review score and category
 CREATE VIEW IF NOT EXISTS v_order_base AS
 WITH pay AS (
   SELECT order_id, SUM(payment_value) AS order_value
@@ -58,3 +59,48 @@ SELECT COUNT(*) AS n_rows,
        COUNT(DISTINCT order_id) AS n_orders,
        COUNT(DISTINCT customer_unique_id) AS n_customers
 FROM v_order_base;
+
+-- A. One-time vs repeat customers
+WITH cust AS (
+  SELECT customer_unique_id, COUNT(*) AS n_orders
+  FROM v_order_base
+  GROUP BY customer_unique_id
+)
+SELECT CASE WHEN c.n_orders = 1 THEN 'one_time' ELSE 'repeat_2plus' END AS segment,
+       COUNT(DISTINCT b.customer_unique_id)                              AS customers,
+       COUNT(*)                                                          AS orders,
+       ROUND(SUM(b.order_value), 0)                                      AS total_value,
+       ROUND(100.0 * SUM(b.order_value) / SUM(SUM(b.order_value)) OVER (), 2) AS pct_of_value,
+       ROUND(AVG(b.order_value), 2)                                      AS avg_order_value,
+       ROUND(AVG(b.review_score), 2)                                     AS avg_review
+FROM v_order_base b
+JOIN cust c USING (customer_unique_id)
+GROUP BY segment;
+
+-- B. Top 15 categories by value (category of the highest-priced item per order)
+SELECT category,
+       COUNT(*)                                                           AS orders,
+       ROUND(SUM(order_value), 0)                                         AS total_value,
+       ROUND(100.0 * SUM(order_value) / SUM(SUM(order_value)) OVER (), 2) AS pct_of_value,
+       ROUND(AVG(order_value), 2)                                         AS avg_order_value,
+       ROUND(AVG(review_score), 2)                                        AS avg_review,
+       ROUND(100.0 * SUM(review_score <= 2) / COUNT(review_score), 2)     AS pct_low_review
+FROM v_order_base
+GROUP BY category
+ORDER BY total_value DESC
+LIMIT 15;
+
+-- C. Top 10 states by value
+SELECT customer_state,
+       COUNT(DISTINCT customer_unique_id)                                 AS customers,
+       COUNT(*)                                                           AS orders,
+       ROUND(SUM(order_value), 0)                                         AS total_value,
+       ROUND(100.0 * SUM(order_value) / SUM(SUM(order_value)) OVER (), 2) AS pct_of_value,
+       ROUND(AVG(order_value), 2)                                         AS avg_order_value,
+       ROUND(AVG(review_score), 2)                                        AS avg_review,
+       ROUND(AVG(julianday(order_delivered_customer_date)
+               - julianday(order_purchase_timestamp)), 1)                 AS avg_delivery_days
+FROM v_order_base
+GROUP BY customer_state
+ORDER BY total_value DESC
+LIMIT 10;
