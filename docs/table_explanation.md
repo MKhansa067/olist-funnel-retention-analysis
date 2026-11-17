@@ -132,3 +132,13 @@ E5:
 |DF            |2,080           |5.67    |4.13      |
 |ES            |1,995           |10.73   |4.08      |
 |GO            |1,957           |6.54    |4.11      |
+Konfirmasi skrip:
+sudah execute dan menghasilkan file: chart_category_low_review.png, chart_funnel.png, chart_late_vs_review.png, chart_retention_heatmap.png, chart_retention_pooled.png. 
+Deskripsi gambar:
+1. chart_category_low_review: Low-review share, top 15 categories by order value: office_furniture=22.6%; bed_bath_table=16.5%; furniture_decor=15.9%; computers_accessories=15.7%; baby=15.1%; telephony=15.1%; watches_gifts=14.9%; auto=13.9%; perfumery=12.8%; garden_tools=12.7%; housewares=12.5%; sports_leisure=12.4%; health_beauty=12.4%; toys=12.1%; cool_stuff=11.9%.
+2. chart_funnel: Order fulfilment funnel: 97.0% of orders reach the customer: purchased=99,441(100.00%); approved=99,281(99.84%); shipped to carrier=97,644(98.19%); delivered to customer=96,461(97.00%).
+3. chart_late_vs_review:
+- average review score: on time ot early=4.29 average review score; late 1-3 days=3.29 average review score; late 4-7 days=2.10 average review score; late 8+ days=1.70 average review score.
+- share of low reviews: on time or early=9.3% orders with 1-2 star review(%); late 1-3 days=32.1% orders with 1-2 star review(%); late 4-7 days=67.7% orders with 1-2 star review(%); late 8+ days=79.3% orders with 1-2 star review(%).
+4. chart_retention_heatmap: monthly_cohort_retention_heatmap.txt
+5. chart_retention_pooled: pooled_retention_chart.txt

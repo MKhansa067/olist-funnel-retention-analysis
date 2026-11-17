@@ -1,0 +1,2 @@
+- Analyzed 99K e-commerce orders with SQL (CTEs, window functions) to map the fulfilment funnel (97.0% delivered; 1,637 orders stalled between approval and shipping) and cohort retention (0.48% in month 1).
+- Linked late delivery (6.8% of orders) to review scores (2.27 vs 4.29) and proposed 3 RICE-prioritized product recommendations, each with success metrics and an A/B test design.
