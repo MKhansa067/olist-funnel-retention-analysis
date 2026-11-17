@@ -110,3 +110,58 @@ LEFT JOIN category_translation t
   ON p.product_category_name = t.product_category_name
 WHERE p.product_category_name IS NOT NULL
   AND t.product_category_name IS NULL;
+
+-- Q12. Timing of the second order among repeat customers
+-- (same day or same month = split purchase, not real retention)
+WITH valid_orders AS (
+  SELECT c.customer_unique_id,
+         o.order_id,
+         o.order_purchase_timestamp AS ts
+  FROM orders o
+  JOIN customers c ON c.customer_id = o.customer_id
+  WHERE o.order_status NOT IN ('canceled', 'unavailable')
+),
+ranked AS (
+  SELECT customer_unique_id, ts,
+         ROW_NUMBER() OVER (PARTITION BY customer_unique_id ORDER BY ts, order_id) AS rn
+  FROM valid_orders
+),
+first_second AS (
+  SELECT f.ts AS ts1, s.ts AS ts2
+  FROM ranked f
+  JOIN ranked s
+    ON s.customer_unique_id = f.customer_unique_id
+   AND f.rn = 1 AND s.rn = 2
+)
+SELECT COUNT(*)                                              AS repeat_customers,
+       SUM(date(ts1) = date(ts2))                            AS second_order_same_day,
+       SUM(strftime('%Y-%m', ts1) = strftime('%Y-%m', ts2))  AS second_order_same_month,
+       SUM(strftime('%Y-%m', ts1) <> strftime('%Y-%m', ts2)) AS second_order_later_month
+FROM first_second;
+
+-- Q13. Which orders have no items?
+SELECT o.order_status, COUNT(*) AS orders_without_items
+FROM orders o
+LEFT JOIN order_items i ON i.order_id = o.order_id
+WHERE i.order_id IS NULL
+GROUP BY o.order_status
+ORDER BY orders_without_items DESC;
+
+-- Q14
+SELECT strftime('%Y-%m', order_purchase_timestamp) AS year_month,
+       COUNT(*) AS orders
+FROM orders
+GROUP BY year_month
+ORDER BY year_month;
+
+SELECT COUNT(*) AS review_rows,
+       COUNT(DISTINCT order_id) AS orders_reviewed
+FROM order_reviews;
+
+SELECT COUNT(*) AS total_products,
+       SUM(product_category_name IS NULL) AS null_category
+FROM products;
+
+-- Q14. Reviews per order
+SELECT COUNT(*) AS review_rows, COUNT(DISTINCT order_id) AS orders_reviewed
+FROM order_reviews;
