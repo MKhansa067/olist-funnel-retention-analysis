@@ -71,12 +71,11 @@ Success metrics: (1) late rate in test regions (RJ baseline 12.11%) and share of
 ```bash
 pip install -r requirements.txt
 # 1. Download the dataset from Kaggle and extract the 9 CSV files into data/
-python scripts/load_data.py          # creates olist.db
-# 2. Run sql/00 ... sql/05 in order (DBeaver or sqlite3); export results to output/
-python scripts/make_charts.py        # writes assets/charts/*.png
-# 3. Run to get the auto output instead of getting it manually from your DBeaver SQLite/
-python scripts/run_sql.py            # creates output_auto/
+python scripts/load_data.py      # creates olist.db
+python scripts/run_sql.py        # runs sql/00-05, exports CSVs to output/, checks key figures
+python scripts/make_charts.py    # writes assets/charts/*.png
 ```
+`run_sql.py` rebuilds the views `v_cohort_retention` and `v_order_base` from the SQL files, then verifies six headline figures (for example 99,441 orders and 94,697 retention-cohort customers) and exits with an error if any differs.
 `03_retention_cohort.sql` creates the view `v_cohort_retention` and `04_segmentation.sql` creates `v_order_base`; `05_extra_analysis.sql` depends on the latter.
 
 ## Limitations
