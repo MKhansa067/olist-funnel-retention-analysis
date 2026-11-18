@@ -1,5 +1,0 @@
-step,n_valid,median_days,mean_days,max_days
-approved_to_carrier,96285,1.85,2.86,125.8
-carrier_to_delivered,96452,7.1,9.33,205.2
-purchase_to_approved,99281,0.01,0.43,187.9
-purchase_to_delivered,96476,10.22,12.56,209.6
