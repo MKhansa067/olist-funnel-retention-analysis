@@ -24,7 +24,7 @@ def read(subdir, prefix):
     matches = sorted((OUT / subdir).glob(f"{prefix}_*.csv"))
     if not matches:
         raise FileNotFoundError(f"No file matching {prefix}_*.csv in {OUT / subdir}")
-    path = matches[-1]  # newest timestamp if the query was exported more than once
+    path = max(matches, key=lambda p: p.stat().st_mtime)  # most recently written export
     print(f"reading {subdir}/{path.name[:50]}...")
     # thousands="," keeps numbers such as "99,441" readable if the export formatted them
     return pd.read_csv(path, thousands=",")
