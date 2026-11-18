@@ -1,0 +1,3 @@
+delivery_status,orders,pct_orders,reviewed,avg_review,pct_low_review
+late,6534,6.77,6381,2.27,62.42
+on_time_or_early,89936,93.23,89443,4.29,9.27

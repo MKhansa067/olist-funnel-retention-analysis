@@ -74,6 +74,8 @@ pip install -r requirements.txt
 python scripts/load_data.py          # creates olist.db
 # 2. Run sql/00 ... sql/05 in order (DBeaver or sqlite3); export results to output/
 python scripts/make_charts.py        # writes assets/charts/*.png
+# 3. Run to get the auto output instead of getting it manually from your DBeaver SQLite/
+python scripts/run_sql.py            # creates output_auto/
 ```
 `03_retention_cohort.sql` creates the view `v_cohort_retention` and `04_segmentation.sql` creates `v_order_base`; `05_extra_analysis.sql` depends on the latter.
 
